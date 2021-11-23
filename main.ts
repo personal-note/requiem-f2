@@ -2734,8 +2734,29 @@ statusbars.onZero(StatusBarKind.EnemyHealth, function (status) {
 })
 sprites.onOverlap(SpriteKind.bullet, SpriteKind.combatform, function (sprite, otherSprite) {
     sprite.destroy(effects.ashes, 100)
-    statusbars.getStatusBarAttachedTo(StatusBarKind.EnemyHealth, otherSprite).value += -30
+    statusbars.getStatusBarAttachedTo(StatusBarKind.EnemyHealth, otherSprite).value += -40
     info.changeScoreBy(1)
+    if (character.matchesRule(otherSprite, character.rule(Predicate.FacingLeft))) {
+        otherSprite.setVelocity(200, -20)
+        timer.after(100, function () {
+            otherSprite.setVelocity(0, 0)
+        })
+    } else if (character.matchesRule(otherSprite, character.rule(Predicate.FacingRight))) {
+        otherSprite.setVelocity(-200, -20)
+        timer.after(100, function () {
+            otherSprite.setVelocity(0, 0)
+        })
+    } else if (character.matchesRule(otherSprite, character.rule(Predicate.MovingRight))) {
+        otherSprite.setVelocity(-200, -20)
+        timer.after(100, function () {
+            otherSprite.setVelocity(0, 0)
+        })
+    } else if (character.matchesRule(otherSprite, character.rule(Predicate.MovingLeft))) {
+        otherSprite.setVelocity(200, -20)
+        timer.after(100, function () {
+            otherSprite.setVelocity(0, 0)
+        })
+    }
 })
 statusbars.onZero(StatusBarKind.Health, function (status) {
     story.startCutscene(function () {
