@@ -814,7 +814,7 @@ function spawnmboss2 () {
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     if (canfire) {
-        cooldown1 = false
+        canfire = false
         ammo += -8
         ammobar.value += -8
         if (ammo > 0) {
@@ -2122,6 +2122,9 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
                 shell.setKind(SpriteKind.bullet)
             }
         }
+        timer.after(cooldown1, function () {
+            canfire = true
+        })
     }
 })
 statusbars.onStatusReached(StatusBarKind.Health, statusbars.StatusComparison.LTE, statusbars.ComparisonType.Percentage, 25, function (status) {
@@ -6670,6 +6673,7 @@ canshootrocket = false
 spawnplayer1()
 shield2()
 ammo_bar()
+rocket_bar()
 startlevel()
 spawncombat()
 spawndrone()
@@ -6750,8 +6754,10 @@ game.onUpdate(function () {
     } else {
         player1.ay = 500
     }
-    if (canshootrocket == true) {
-        rocket_bar()
+    if (canshootrocket == false) {
+        rocketbar.setFlag(SpriteFlag.Invisible, true)
+    } else {
+        rocketbar.setFlag(SpriteFlag.Invisible, false)
     }
 })
 game.onUpdate(function () {
